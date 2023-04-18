@@ -44,34 +44,34 @@ git push origin refs/heads/dev
 git stash pop  // 恢复当前工作区，如果提交代码是备份了
 
 
-"pages/home/home",
-"pages/usercenter/index",
-"pages/usercenter/person-info/index",
-"pages/usercenter/address/list/index",
-"pages/usercenter/address/edit/index",
-"pages/goods/list/index",
-"pages/goods/details/index",
-"pages/goods/category/index",
-"pages/goods/search/index",
-"pages/goods/result/index",
-"pages/cart/index",
-"pages/order/order-confirm/index",
-"pages/order/receipt/index",
-"pages/order/pay-result/index",
-"pages/order/order-list/index",
-"pages/order/order-detail/index",
-"pages/goods/comments/index",
-"pages/order/apply-service/index",
-"pages/order/after-service-list/index",
-"pages/order/after-service-detail/index",
-"pages/goods/comments/create/index",
-"pages/coupon/coupon-list/index",
-"pages/coupon/coupon-detail/index",
-"pages/coupon/coupon-activity-goods/index",
-"pages/promotion-detail/index",
-"pages/order/fill-tracking-no/index",
-"pages/order/delivery-detail/index",
-"pages/order/invoice/index",
+"pages/home/home"
+"pages/usercenter/index"
+"pages/usercenter/person-info/index"
+"pages/usercenter/address/list/index"
+"pages/usercenter/address/edit/index"
+"pages/goods/list/index"
+"pages/goods/details/index"
+"pages/goods/category/index"
+"pages/goods/search/index"
+"pages/goods/result/index
+"pages/cart/index"
+"pages/order/order-confirm/index"
+"pages/order/receipt/index"
+"pages/order/pay-result/index"
+"pages/order/order-list/index"
+"pages/order/order-detail/index"
+"pages/goods/comments/index"
+"pages/order/apply-service/index"
+"pages/order/after-service-list/index"
+"pages/order/after-service-detail/index"
+"pages/goods/comments/create/index"
+"pages/coupon/coupon-list/index"
+"pages/coupon/coupon-detail/index"
+"pages/coupon/coupon-activity-goods/index"
+"pages/promotion-detail/index"
+"pages/order/fill-tracking-no/index"
+"pages/order/delivery-detail/index"
+"pages/order/invoice/index"
 "pages/usercenter/name-edit/index"
 
 python manage.py runserver_plus --cert-file wxamp.blhlm.com.crt --key-file wxamp.blhlm.com.key 0.0.0.0:443
