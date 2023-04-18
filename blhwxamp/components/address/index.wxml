@@ -1,0 +1,11 @@
+<t-picker
+  visible="{{addressVisible}}"
+  value="{{addressValue}}"
+  data-key="address"
+  title="选择地址"
+  cancelBtn="取消"
+  confirmBtn="确认"
+  bindchange="onPickerChange"
+>
+  <t-picker-item options="{{addresses}}"></t-picker-item>
+</t-picker>

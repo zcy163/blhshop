@@ -1,0 +1,28 @@
+{
+  "navigationBarTitleText": "百里惠-免费领样",
+  "onReachBottomDistance": 10,
+  "backgroundTextStyle": "light",
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#fc5253",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "t-search": "tdesign-miniprogram/search/search",
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "t-swiper": "tdesign-miniprogram/swiper/swiper",
+    "t-swiper-item": "tdesign-miniprogram/swiper/swiper-item",
+    "t-swiper-nav": "tdesign-miniprogram/swiper/swiper-nav",
+    "t-image": "/components/webp-image/index",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel",
+    "t-sticky": "tdesign-miniprogram/sticky/sticky",
+    "t-back-top": "tdesign-miniprogram/back-top/back-top",
+    "t-picker": "tdesign-miniprogram/picker/picker",
+    "t-picker-item": "tdesign-miniprogram/picker/picker-item",
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "goods-list": "/components/goods-list/index",
+    "load-more": "/components/load-more/index",
+    "address": "/components/address/index"
+  }
+}

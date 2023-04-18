@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "百里惠-达人榜",
+  "onReachBottomDistance": 10,
+  "backgroundTextStyle": "light",
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#fc5253",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "goods-category": "./components/goods-category/index",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tabs/tab-panel"
+  }
+}

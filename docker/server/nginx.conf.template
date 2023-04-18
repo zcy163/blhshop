@@ -1,0 +1,78 @@
+worker_processes 8;
+pid ${CONTAINER_HOMEWORK}/run/nginx.pid;
+
+
+events {
+    multi_accept       on;
+    worker_connections 65535;
+}
+
+
+http {
+    charset              utf-8;
+    sendfile             on;
+    tcp_nopush           on;
+    tcp_nodelay          on;
+    server_tokens        off;
+    log_not_found        off;
+    types_hash_max_size  2048;
+    client_max_body_size 2M;
+    underscores_in_headers on;
+
+
+    # MIME
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    # gzip
+    gzip            on;
+    gzip_vary       on;
+    gzip_proxied    any;
+    gzip_comp_level 6;
+    gzip_types      text/plain text/css text/xml application/json application/javascript application/rss+xml application/atom+xml image/svg+xml;
+
+    # log
+    log_format  main  escape=json '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" "$upstream_addr" "$upstream_status" "$http_user_agent" "$http_x_forwarded_for" '
+                      '"$http_AMIS_TOKEN" "$http_AMIS_USER" "$request_body"';
+
+    access_log  ${CONTAINER_HOMEWORK}/log/nginx/access.log  main;
+    error_log   ${CONTAINER_HOMEWORK}/log/nginx/error.log warn;
+
+    # proxy
+    proxy_connect_timeout  600s;
+    proxy_send_timeout  600s;
+    proxy_read_timeout  600s;
+
+    upstream ${COMPOSE_PROJECT_NAME} {
+        server unix://${CONTAINER_HOMEWORK}/run/uwsgi.sock max_fails=2 fail_timeout=300s;
+    }
+
+    server {
+        listen 8000;
+        server_name usalv.club www.usalv.club;
+
+        # Django media
+        location /media/ {
+            alias ${CONTAINER_HOMEWORK}/media/;
+        }
+
+        # Django static
+        location /static/ {
+            alias ${CONTAINER_HOMEWORK}/static/;
+        }
+
+        location / {
+            # default uwsgi_params
+            include                       /etc/nginx/uwsgi_params;
+
+            # uwsgi settings
+            uwsgi_pass                    ${COMPOSE_PROJECT_NAME};
+            uwsgi_param Host              $host;
+            uwsgi_param X-Real-IP         $remote_addr;
+            uwsgi_param X-Forwarded-For   $proxy_add_x_forwarded_for;
+            uwsgi_param X-Forwarded-Proto $http_x_forwarded_proto;
+        }
+
+    }
+}

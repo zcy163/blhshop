@@ -1,0 +1,135 @@
+<view style="text-align: center" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" loading t-class-indicator="t-class-indicator">
+    <span slot="text" class="loading-text">加载中...</span>
+  </t-loading>
+</view>
+<t-sticky>
+  <view class="home-page-header">
+    <!-- <view class="blh-titile">百里惠-免费领样</view> -->
+    <view class="search" style="margin-bottom: 1vh;" bind:tap="navToSearchPage">
+      <t-search
+        t-class-input="t-search__input"
+        t-class-input-container="t-search__input-container"
+        placeholder="搜索你想要的商品"
+        leftIcon=""
+        rightIcon=""
+        disabled
+        value="{{searchValue}}"
+        clearable="false"
+      >
+        <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+      </t-search>
+      <view class="search-clear" catch:tap="handleClear" wx:if="{{searchValue}}">
+        <t-icon name="close-circle-filled" size="40rpx" color="#bbb" />
+      </view>
+    </view>
+    <!-- <view class="search" style="margin-bottom: 1vh;">
+      <t-search
+        t-class-input="t-search__input"
+        t-class-input-container="t-search__input-container"
+        placeholder="搜索你想要的商品"
+        leftIcon=""
+        bind:submit="handleSubmit"
+        bind:focus="handleFocus"
+        bind:blur="handleBlur"
+        bind:clear="handleClear"
+        value="{{searchValue}}"
+      >
+        <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+      </t-search>
+      <view class="search-body" wx:if="{{searchVisible}}">
+        <view class="search-body-inner">
+          <view
+            class="search-body-item"
+            wx:for="{{searchList}}"
+            wx:for-index="index"
+            wx:key="item"
+            data-value="{{item}}"
+            bind:tap="handleSearch"
+          >
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </view> -->
+    
+    <!-- <view class="swiper-wrap">
+    <t-swiper wx:if="{{imgSrcs.length > 0}}" current="{{current}}" autoplay="{{autoplay}}" duration="{{duration}}" interval="{{interval}}" navigation="{{navigation}}">
+      <t-swiper-item wx:for="{{imgSrcs}}" wx:key="index">
+        <t-image src="{{item.img}}" t-class="t-image__swiper" bind:tap="navToActivityDetail" />
+      </t-swiper-item>
+    </t-swiper>
+  </view> -->
+    <view class="blh-tabs">
+      <t-tabs
+        class="blh-tabs-list"
+        defaultValue="{{tabIndex}}"
+        value="{{tabIndex}}"
+        show-bottom-line="{{true}}"
+        swipeable="{{false}}"
+        bind:change="tabChangeHandle"
+      >
+        <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{index}}" />
+      </t-tabs>
+      <view class="blh-tabs-down" bind:tap="tabsDown">
+        <t-icon name="chevron-down" color="#fff" />
+      </view>
+    </view>
+    <view class="blh-screen">
+      <view class="blh-tabs-block" wx:if="{{visible}}">
+        <view
+          class="blh-tabs-item"
+          wx:for="{{tabList}}"
+          wx:for-index="index"
+          wx:key="index"
+        >
+          <t-tag
+            variant="outline"
+            theme="{{ tabIndex === index ? 'danger' : 'default'}}"
+            data-label="{{tabList[index].text}}"
+            data-value="{{index}}"
+            bind:tap="tabChangeHandle"
+          >
+            {{item.text}}
+          </t-tag>
+        </view>
+      </view>
+      <view wx:for="{{screenMenu}}" wx:for-index="index" wx:key="index">
+        <view class="blh-screen-item" bind:tap="onClickPicker" data-key="{{item.key}}" data-index="{{index}}">
+          <text
+            style="margin-right: 4rpx;"
+            class="{{index===screenIndex?'blh-screen-item-acitve':''}}"
+          >{{item.value || item.name}}</text>
+          <!-- <t-icon name="chevron-down" size="30rpx" /> -->
+        </view>
+      </view>
+    </view>
+  </view>
+</t-sticky>
+<view class="home-page-container">
+  <goods-list wr-class="goods-list-container" goodsList="{{goodsList}}" bind:click="goodListClickHandle" bind:addcart="goodListAddCartHandle" />
+  <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
+  <t-toast id="t-toast" />
+  <view wx:if="{{nomore}}" class="nomore">未搜索到更多商品</view>
+</view>
+<view class="topback"></view>
+<!-- 返回顶部 -->
+<t-back-top theme="round" text="顶部" bind:to-top="onToTop"></t-back-top>
+<!-- 类目 -->
+<!-- <view wx:for="{{screenMenu}}" wx:for-index="index" wx:key="index">
+  <t-picker
+    auto-close="{{false}}"
+    visible="{{screenMenu[index].visible}}"
+    value="{{screenMenu[index].value}}"
+    data-key="{{screenMenu[index].key}}"
+    data-index="{{index}}"
+    cancelBtn="取消"
+    confirmBtn="确认"
+    bindchange="onPickerChange"
+    bindcancel="onPickerCancel"
+  >
+    <t-picker-item options="{{screenMenu[index].categorys}}"></t-picker-item>
+  </t-picker>
+</view> -->
+
+<address addressVisible="{{addressVisible}}" bind:select-address="selectAddressHandle" />

@@ -1,0 +1,9 @@
+<view class="wrap">
+  <view class="topback"></view>
+  <view class="blh-cetegory-header">
+    <t-tabs t-class="t-tabs" defaultValue="{{0}}" theme="card" space-evenly="{{false}}" show-bottom-line="{{false}}">
+      <t-tab-panel label="日榜" value="{{0}}" />
+      <t-tab-panel label="月榜" value="{{1}}" />
+    </t-tabs>
+  </view>
+</view>
