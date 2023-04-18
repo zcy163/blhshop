@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  base:
+    build:
+      context: ../
+      dockerfile: docker/base/Dockerfile
+      args:
+        - CONTAINER_HOMEWORK=${CONTAINER_HOMEWORK}
+        - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+        - SERVER_PROJECT_NAME=${SERVER_PROJECT_NAME}
+        - CONTAINER_USER=${CONTAINER_USER}
+        - CONTAINER_GROUP=${CONTAINER_GROUP}
+    image: ${COMPOSE_PROJECT_NAME}-base
+    environment:
+      - TZ=UTC+8

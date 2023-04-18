@@ -1,0 +1,97 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: ../
+      dockerfile: docker/server/Dockerfile
+      args:
+        - CONTAINER_HOMEWORK=${CONTAINER_HOMEWORK}
+        - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+        - SERVER_PROJECT_NAME=${SERVER_PROJECT_NAME}
+        - CONTAINER_USER=${CONTAINER_USER}
+        - CONTAINER_GROUP=${CONTAINER_GROUP}
+    init: true
+    image: ${COMPOSE_PROJECT_NAME}-server
+    container_name: ${COMPOSE_PROJECT_NAME}-server
+    command: /usr/local/bin/supervisord -c ${CONTAINER_HOMEWORK}/deploy/supervisor.conf
+    networks:
+      - blhshop
+    # ports:
+    #   - ${SERVER_PORT}:${SERVER_PORT}
+    restart: always
+    healthcheck:
+      test: curl -f http://127.0.0.1:8000/admin/
+      interval: 2s
+      timeout: 10s
+    environment:
+      # Django
+      - DJANGO_RUNTIME_MODE=${DJANGO_RUNTIME_MODE}
+      - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
+      - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
+      - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
+      - DJANGO_SUPERUSER_MOBILE=${DJANGO_SUPERUSER_MOBILE}
+      # 绑定其他容器
+      - DEFAULT_MYSQL_HOST=${COMPOSE_PROJECT_NAME}-mysql
+      - DEFAULT_MYSQL_PORT=${MYSQL_PORT}
+      - DEFAULT_MYSQL_PWD=${MYSQL_PASSWORD}
+      - DEFAULT_REDIS_HOST=${COMPOSE_PROJECT_NAME}-redis
+      - DEFAULT_REDIS_PORT=${REDIS_PORT}
+      - DEFAULT_REDIS_PWD=${REDIS_PWD}
+    depends_on:
+      - mysql
+      - redis
+  redis:
+    build:
+      context: ../
+      dockerfile: docker/redis/Dockerfile
+    image: ${COMPOSE_PROJECT_NAME}-redis
+    container_name: ${COMPOSE_PROJECT_NAME}-redis
+    hostname: ${COMPOSE_PROJECT_NAME}-redis
+    volumes:
+      - "redis:/data"
+    networks:
+      - blhshop
+    # ports:
+    #   - "${REDIS_PORT}:5173"
+    restart: always
+    # healthcheck:
+      # test: bash /healthcheck.sh
+      # interval: 2s
+      # timeout: 10s
+    environment:
+      - TZ=Asia/Shanghai
+      - requirepass=${REDIS_PWD}
+      - redisPWD=${REDIS_PWD}
+  mysql:
+    build:
+      context: ../
+      dockerfile: docker/mysql/Dockerfile
+    image: ${COMPOSE_PROJECT_NAME}-mysql
+    container_name: ${COMPOSE_PROJECT_NAME}-mysql
+    hostname: ${COMPOSE_PROJECT_NAME}-mysql
+    volumes:
+      - "mysql:/var/lib/mysql"
+    networks:
+      - blhshop
+    ports:
+      - "33061:3306"
+    restart: always
+    healthcheck:
+      test: mysqladmin ping -h ${COMPOSE_PROJECT_NAME}-mysql -u ${MYSQL_USER} --password=${MYSQL_PASSWORD}
+      interval: 2s
+      timeout: 10s
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=Asia/Shanghai
+
+networks:
+  blhshop:
+    driver: bridge
+
+volumes:
+  redis:
+  mysql:
