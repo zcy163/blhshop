@@ -40,6 +40,6 @@ git rebase dev  // 合并dev
 
 ### 4、提交代码到dev
 
-git push origin HEAD:refs/heads/dev
+git push origin refs/heads/dev
 git stash pop  // 恢复当前工作区，如果提交代码是备份了
 
